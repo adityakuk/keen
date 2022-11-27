@@ -7,8 +7,6 @@ const PORT = 8000;
 const db = require("./db");
 const router = require('./routes')
 
-
-
 //database connection
 
 // db.connect();

@@ -5,18 +5,19 @@ import { useEffect, useState } from "react";
 import axios from 'axios';
 
 export const Feed = () => {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     axios
       .get('/api/questions')
       .then((res) => {
-        console.log(res.data)
         setPosts(res.data)
       })
       .catch((e) => {
         console.log(e)
       })
-  }, [])
+  }, []);
+  
   return (
     <div className="feed">
       <Quorabox />

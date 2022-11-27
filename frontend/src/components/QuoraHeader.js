@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import AddHomeIcon from '@mui/icons-material/AddHome';
-// import AcUnitIcon from '@mui/icons-material/AcUnit';
 import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
@@ -8,15 +8,10 @@ import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 import { Avatar, Button, Input } from '@mui/material';
 import './css/QuoraHeader.css';
 import Modal from 'react-responsive-modal';
-import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import 'react-responsive-modal/styles.css'
 import { ExpandMore, PeopleAltOutlined } from '@mui/icons-material';
 import axios from 'axios';
-
-
-
-
 
 export const QuoraHeader = () => {
 
@@ -40,8 +35,8 @@ export const QuoraHeader = () => {
       await axios
       .post('/api/questions', body, config)
       .then((res) => {
-        console.log(res.data)
         alert(res.data.message)
+        window.location.href="/";
       }).catch((e) =>{
         console.log(e);
         alert('error in adding question')
