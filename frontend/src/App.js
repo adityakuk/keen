@@ -9,7 +9,7 @@ const App = () => {
   // const user = useSelector((store)=>store)
   return (
     <div className="App">
-       <Quora/>
+      <Quora />
     </div>
   );
 }
