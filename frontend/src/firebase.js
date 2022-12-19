@@ -1,7 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/analytics";
-import { Provider } from "react-redux";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
+// import { Provider } from "react-redux";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -20,6 +21,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth()
-const Provider = new GoogleAuthProvider()
+const provider = new GoogleAuthProvider();
 
-export { auth, Provider }
+export { auth, provider };
+//export { auth }
