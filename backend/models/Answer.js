@@ -11,6 +11,7 @@ const AnswerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now(),
     },
+    user: Object,
 })
 
 module.exports = mongoose.model("Answers", AnswerSchema)

@@ -33,11 +33,11 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async(req, res) => {
- try{
+router.get("/", async (req, res) => {
+  try {
     await questionDB.aggregate([
       {
-        $lookup: {           
+        $lookup: {
           from: "answers",   //collection to join
           localField: "_id", //field from input documnet
           foreignField: "questionId",
@@ -52,12 +52,12 @@ router.get("/", async(req, res) => {
         message: "Unable to get the question details"
       })
     })
- } catch (e) {
-  res.status(500).send({
-    status: false,
-    message: "unexpected error"
-  })
- }
+  } catch (e) {
+    res.status(500).send({
+      status: false,
+      message: "unexpected error"
+    })
+  }
 })
 
 module.exports = router;

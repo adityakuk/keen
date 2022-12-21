@@ -12,6 +12,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import 'react-responsive-modal/styles.css'
 import { ExpandMore, PeopleAltOutlined } from '@mui/icons-material';
 import axios from 'axios';
+import { signOut } from 'firebase/auth';
+import { auth } from "../firebase"
+import { logout, selectUser } from '../feature/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const QuoraHeader = () => {
 
@@ -19,31 +23,57 @@ export const QuoraHeader = () => {
   const [inputUrl, setInputUrl] = useState("");
   const [question, setQuestion] = useState("");
   const Close = (<CloseIcon />)
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
-  const handleSubmit = async() => {
-    if(question !== ""){
+  const handleSubmit = async () => {
+    if (question !== "") {
 
       const config = {
         headers: {
-          "Content-Type":"application/json",
+          "Content-Type": "application/json",
         }
       }
       const body = {
         questionName: question,
         questionUrl: inputUrl,
+        user: user
       }
       await axios
-      .post('/api/questions', body, config)
-      .then((res) => {
-        alert(res.data.message)
-        window.location.href="/";
-      }).catch((e) =>{
-        console.log(e);
-        alert('error in adding question')
-      })
+        .post('/api/questions', body, config)
+        .then((res) => {
+          alert(res.data.message)
+          window.location.href = "/";
+        }).catch((e) => {
+          console.log(e);
+          alert('error in adding question')
+        })
     }
   }
 
+  // const handleLogout = () => {
+  //   if (window.confirm('Are you sure to logout ?')) {
+  //     signOut(auth)
+  //       .then(() => {
+  //         dispatch(logout());
+  //         console.log('Logged out');
+  //       }).catch(() => {
+  //         console.log('error in logout');
+  //       });
+  //   }
+  // }
+  const handleLogout = () => {
+    if (window.confirm("Are you sure to logout ?")) {
+      signOut(auth)
+        .then(() => {
+          dispatch(logout());
+          console.log("Logged out");
+        })
+        .catch(() => {
+          console.log("error in logout");
+        });
+    }
+  };
   return (
     <div className='qHeader'>
       <div className='qHeader-content'>
@@ -72,10 +102,15 @@ export const QuoraHeader = () => {
           <ManageSearchIcon />
           <input type="text" placeholder='Search Question' />
         </div>
-        <div className='qHeader_Rem'>
-          < Avatar />
+        <div className='qHeader__Rem'>
+          {/* <span onClick={handleLogout}>
+            < Avatar src={user?.photo} /></span> */}
+          <span onClick={handleLogout}>
+            <Avatar src={user?.photo} />
+          </span>
         </div>
-        <Button variant="contained" color="success" onClick={() => setIsModalOpen(true)}>Add Question</Button>
+        <Button variant="contained" color="success" onClick={() => setIsModalOpen(true)} >Add Question</Button>
+        {/* <Button mt-3 onClick={() => setIsModalOpen(true)}>Add Question</Button> */}
         <Modal
           open={isModalOpen}
           closeIcon={Close}
@@ -94,7 +129,7 @@ export const QuoraHeader = () => {
             <h5>Share Link</h5>
           </div>
           <div className='modal__info'>
-            <Avatar className='avatar' />
+            <Avatar src={user?.photo} className='avatar' />
             <div className='modal__scope'>
               <PeopleAltOutlined />
               <p>Public</p>
@@ -102,11 +137,11 @@ export const QuoraHeader = () => {
             </div>
           </div>
           <div className='modal__Field'>
-            <Input 
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-            type='text' 
-            placeholder='Start your question With What, How, Why, etc. ' />
+            <Input
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              type='text'
+              placeholder='Start your question With What, How, Why, etc. ' />
             <div style={{
               display: 'flex',
               flexDirection: 'column'
@@ -122,12 +157,12 @@ export const QuoraHeader = () => {
                 }}
                 placeholder='Optional: include a link that gives context' />
               {
-                inputUrl !== "" && <img 
-                style={{
-                  height: "40vh",
-                  objectFit: "contain",
-                }}
-                src={inputUrl}
+                inputUrl !== "" && <img
+                  style={{
+                    height: "40vh",
+                    objectFit: "contain",
+                  }}
+                  src={inputUrl}
                   alt='Desplayimage' />
               }
 
@@ -137,7 +172,7 @@ export const QuoraHeader = () => {
             <button className='cancle' onClick={() => setIsModalOpen(false)}>
               Cancel
             </button>
-            <button onClick={handleSubmit} type='submit' className='add' >
+            <button onClick={handleSubmit} type='submit' className='add'>
               Add Question
             </button>
           </div>
